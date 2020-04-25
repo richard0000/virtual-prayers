@@ -1,0 +1,23 @@
+app:
+    build: .
+    command: rails server -p 3001 -b '0.0.0.0'
+    volumes:
+        - .:/app
+    ports:
+        - "3000:3001"
+    links:
+        - postgres
+        - mailcatcher
+    environment: 
+        PG_PASSWORD: password
+mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+        - "1080:1080"
+postgres:
+    image: postgres:12.2
+    ports: 
+        - "5432"
+    environment: 
+        POSTGRES_HOST_AUTH_METHOD: "trust"
+        PG_PASSWORD: password
